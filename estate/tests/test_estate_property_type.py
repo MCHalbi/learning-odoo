@@ -1,21 +1,17 @@
-# Author: Lukas Halbritter <lukas.halbritter@jobrad.org>
+# Author: Lukas Halbritter <halbi93@gmx.de>
 # Copyright 2023
 # pylint: disable=missing-docstring
 import unittest
-import pprint
 from odoo import fields
 from odoo.tests.common import TransactionCase
 
-
-class EstatePropertyTests(TransactionCase):
+class EstatePropertyTypeTests(TransactionCase):
     def setUp(self):
-        self._model = self.env['estate.property']
+        self._model = self.env['estate.property.type']
 
-    def test_estate_property_has_required_attributes(self):
+    def test_estate_property_type_has_required_attributes(self):
         self.assertModelHasAttributeWithType("name", fields.Char)
-        self.assertModelHasAttributeWithType("description", fields.Text)
-        self.assertModelHasAttributeWithType("postcode", fields.Char)
-        self.assertModelHasAttributeWithType("date_availability", fields.Date)
+        self.assertTrue(self._model._fields["name"].required)
 
     def assertModelHasAttributeWithType(
             self,
