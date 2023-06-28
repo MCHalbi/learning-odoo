@@ -3,33 +3,19 @@
 # pylint: disable=missing-docstring
 import unittest
 from odoo import fields
+from odoo.tools import mute_logger
 from odoo.tests.common import TransactionCase
+from psycopg2.errors import NotNullViolation
 
 class EstatePropertyTypeTests(TransactionCase):
     def setUp(self):
         self._model = self.env['estate.property.type']
 
-    def test_estate_property_type_has_required_attributes(self):
-        self.assertModelHasAttributeWithType("name", fields.Char)
-        self.assertTrue(self._model._fields["name"].required)
+    def test_create_new_estate_property_type(self):
+        record = self._model.create({"name": "House"})
+        self.assertEqual(record.name, "House")
 
-    def assertModelHasAttributeWithType(
-            self,
-            attributeName: str,
-            attributeType: fields.MetaField):
-        self.assertModelHasAttribute(attributeName)
-        self.assertModelAttributeHasType(attributeName, attributeType)
-
-    def assertModelHasAttribute(self, attributeName: str):
-        self.assertTrue(
-            hasattr(self._model, attributeName),
-            f"Field \"{attributeName}\" is missing from model \"{type(self._model).__name__}\".")
-
-    def assertModelAttributeHasType(
-            self,
-            attributeName: str,
-            attributeType: fields.MetaField):
-        self.assertIsInstance(
-            self._model._fields[attributeName],
-            attributeType,
-            f"Actual type is {type(self._model._fields[attributeName])}.")
+    @mute_logger('odoo.sql_db')
+    def test_estate_property_type_name_is_required(self):
+        call = lambda: self._model.create({"name": None})
+        self.assertRaises(NotNullViolation, call)
