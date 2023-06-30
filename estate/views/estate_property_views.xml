@@ -11,7 +11,8 @@
     <field name="model">estate.property</field>
     <field name="arch" type="xml">
       <tree string="Properties">
-        <field name="property_type_id" string="Property type"/>
+        <field name="property_type_id" string="Type"/>
+        <field name="property_tag_ids" widget="many2many_tags"/>
         <field name="name" string="Title"/>
         <field name="postcode"/>
         <field name="bedrooms"/>
@@ -29,9 +30,12 @@
     <field name="arch" type="xml">
       <form>
         <sheet>
-          <h1>
-            <field name="name"/>
-          </h1>
+          <div>
+            <h1>
+              <field name="name"/>
+            </h1>
+            <field name="property_tag_ids" widget="many2many_tags"/>
+          </div>
           <group>
             <group>
               <field name="property_type_id"/>
@@ -79,6 +83,7 @@
         <field name="bedrooms"/>
         <field name="living_area"/>
         <field name="facades"/>
+        <field name="property_tag_ids"/>
 
         <filter name="active" string="Active" domain="[('active', '=', True)]"/>
         <filter name="availabe" string="Available" domain="['|', ('state', '=', 'new'), ('state', '=', 'offer_received')]"/>
