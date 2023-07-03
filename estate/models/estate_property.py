@@ -66,3 +66,9 @@ class EstateProperty(models.Model):
                 if record.property_offer_ids
                 else 0.0
             )
+
+    @api.onchange("garden")
+    def _onchange_garden(self):
+        self.garden_area, self.garden_orientation = (
+            (10, "N") if self.garden else (None, None)
+        )
