@@ -58,5 +58,8 @@ class EstateProperty(models.Model):
     @api.depends("property_offer_ids.price")
     def _compute_best_offer(self) -> None:
         for record in self:
-            record.best_offer = max(offer.price for offer in
-                                    record.property_offer_ids) if record.property_offer_ids else 0.0
+            record.best_offer = (
+                max(offer.price for offer in record.property_offer_ids)
+                if record.property_offer_ids
+                else 0.0
+            )
