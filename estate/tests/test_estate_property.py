@@ -23,7 +23,9 @@ class EstatePropertyTests(TransactionCase):
         self.assertTrue(actual_view_id)
 
         # Check, that the XML id of the used view is correct
-        actual_view_xml_id = self.env["ir.ui.view"].browse(actual_view_id).xml_id
+        actual_view_xml_id = (
+            self.env["ir.ui.view"].browse(actual_view_id).xml_id
+        )
         self.assertEqual(actual_view_xml_id, "estate.estate_property_view_form")
 
     def assertModelHasAttributeWithType(

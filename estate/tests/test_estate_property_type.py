@@ -30,7 +30,8 @@ class EstatePropertyTypeTests(TransactionCase):
         architecture_xpath = html.fromstring(architecture)
 
         column_names = [
-            field.get("name") for field in architecture_xpath.xpath("//tree/field")
+            field.get("name")
+            for field in architecture_xpath.xpath("//tree/field")
         ]
 
         expected_column_names = ["name"]

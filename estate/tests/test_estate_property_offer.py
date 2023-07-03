@@ -32,8 +32,12 @@ class EstatePropertyOfferTests(TransactionCase):
 
         self.assertEqual(record.price, self._valid_offer_data["price"])
         self.assertEqual(record.status, self._valid_offer_data["status"])
-        self.assertEqual(record.partner_id.id, self._valid_offer_data["partner_id"])
-        self.assertEqual(record.property_id.id, self._valid_offer_data["property_id"])
+        self.assertEqual(
+            record.partner_id.id, self._valid_offer_data["partner_id"]
+        )
+        self.assertEqual(
+            record.property_id.id, self._valid_offer_data["property_id"]
+        )
 
     @mute_logger("odoo.sql_db")
     def test_estate_property_offer_partner_id_is_required(self):
