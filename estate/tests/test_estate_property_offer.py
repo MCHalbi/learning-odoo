@@ -9,21 +9,23 @@ from psycopg2.errors import NotNullViolation
 from lxml import html
 from typing import Dict
 
+
 class EstatePropertyOfferTests(TransactionCase):
     def setUp(self):
         super().setUp()
-        self._model = self.env['estate.property.offer']
-        self._property_mock = self.env['estate.property'].create(
+        self._model = self.env["estate.property.offer"]
+        self._property_mock = self.env["estate.property"].create(
             {
                 "name": "Foo",
                 "expected_price": 42,
-                })
-        self._valid_offer_data = {
-                "price": 3.141,
-                "status": "accepted",
-                "partner_id": 1,
-                "property_id": self._property_mock.id,
             }
+        )
+        self._valid_offer_data = {
+            "price": 3.141,
+            "status": "accepted",
+            "partner_id": 1,
+            "property_id": self._property_mock.id,
+        }
 
     def test_create_new_estate_property_offer(self):
         record = self._model.create(self._valid_offer_data)
@@ -33,7 +35,7 @@ class EstatePropertyOfferTests(TransactionCase):
         self.assertEqual(record.partner_id.id, self._valid_offer_data["partner_id"])
         self.assertEqual(record.property_id.id, self._valid_offer_data["property_id"])
 
-    @mute_logger('odoo.sql_db')
+    @mute_logger("odoo.sql_db")
     def test_estate_property_offer_partner_id_is_required(self):
         invalid_offer_data = self._valid_offer_data.copy()
         del invalid_offer_data["partner_id"]
@@ -42,7 +44,7 @@ class EstatePropertyOfferTests(TransactionCase):
 
         self.assertRaises(NotNullViolation, call)
 
-    @mute_logger('odoo.sql_db')
+    @mute_logger("odoo.sql_db")
     def test_estate_property_offer_property_id_is_required(self):
         invalid_offer_data = self._valid_offer_data.copy()
         del invalid_offer_data["property_id"]
