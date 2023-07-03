@@ -59,7 +59,7 @@ class EstateProperty(models.Model):
     def _compute_best_offer(self) -> None:
         for record in self:
             record.best_offer = (
-                max(offer.price for offer in record.property_offer_ids)
+                max(record.property_offer_ids.mapped("price"))
                 if record.property_offer_ids
                 else 0.0
             )
