@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import api, fields, models, exceptions
 
 
 class EstateProperty(models.Model):
@@ -8,12 +8,29 @@ class EstateProperty(models.Model):
     name = fields.Char(required=True)
     description = fields.Text()
     postcode = fields.Char()
+
     date_availability = fields.Date(
         copy=False,
         default=lambda self: fields.Date.add(fields.Date.today(), months=3),
     )
     expected_price = fields.Float(required=True)
     selling_price = fields.Float(readonly=True, copy=False)
+    best_offer = fields.Float(compute="_compute_best_offer")
+
+    active = fields.Boolean(default=False)
+    state = fields.Selection(
+        selection=[
+            ("new", "New"),
+            ("offer_received", "Offer Received"),
+            ("offer_accepted", "Offer Accepted"),
+            ("sold", "Sold"),
+            ("cancelled", "Canceled"),
+        ],
+        required=True,
+        copy=False,
+        default="new",
+    )
+
     bedrooms = fields.Integer(default=2)
     living_area = fields.Integer()
     facades = fields.Integer()
@@ -28,30 +45,17 @@ class EstateProperty(models.Model):
             ("W", "West"),
         ]
     )
-    active = fields.Boolean(default=False)
-    state = fields.Selection(
-        selection=[
-            ("new", "New"),
-            ("offer_received", "Offer Received"),
-            ("offer_accepted", "Offer Accepted"),
-            ("sold", "Sold"),
-            ("cancelled", "Canceled"),
-        ],
-        required=True,
-        copy=False,
-        default="new",
-    )
+    total_area = fields.Integer(compute="_compute_total_area")
+
     property_type_id = fields.Many2one("estate.property.type")
     salesperson_id = fields.Many2one(
-        "res.partner", default=lambda self: self.env.user
+        "res.users", default=lambda self: self.env.user
     )
-    buyer_id = fields.Many2one("res.users", copy=False)
+    buyer_id = fields.Many2one("res.partner", copy=False, readonly=True)
     property_tag_ids = fields.Many2many("estate.property.tag", string="Tags")
     property_offer_ids = fields.One2many(
         "estate.property.offer", "property_id", string="Offers"
     )
-    total_area = fields.Integer(compute="_compute_total_area")
-    best_offer = fields.Float(compute="_compute_best_offer")
 
     @api.depends("living_area", "garden_area")
     def _compute_total_area(self):
@@ -72,3 +76,25 @@ class EstateProperty(models.Model):
         self.garden_area, self.garden_orientation = (
             (10, "N") if self.garden else (None, None)
         )
+
+    def cancel(self) -> bool:
+        for estate_property in self:
+            if self.state == "sold":
+                raise exceptions.UserError(
+                    "A sold property cannot be cancelled."
+                )
+
+            self.state = "cancelled"
+
+        return True
+
+    def sell(self) -> bool:
+        for estate_property in self:
+            if self.state == "cancelled":
+                raise exceptions.UserError(
+                    "A cancelled property cannot be sold."
+                )
+
+            self.state = "sold"
+
+        return True
