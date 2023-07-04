@@ -57,6 +57,19 @@ class EstateProperty(models.Model):
         "estate.property.offer", "property_id", string="Offers"
     )
 
+    _sql_constraints = [
+        (
+            "check_expected_price_must_be_positive",
+            "CHECK(expected_price > 0)",
+            "The expected price must be greater than 0.",
+        ),
+        (
+            "check_selling_price_must_be_positive",
+            "CHECK(selling_price > 0)",
+            "The selling price must be greater than 0.",
+        ),
+    ]
+
     @api.depends("living_area", "garden_area")
     def _compute_total_area(self):
         for record in self:
