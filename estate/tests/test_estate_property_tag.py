@@ -15,8 +15,8 @@ class EstatePropertyTagTests(TransactionCase):
         self._model = self.env["estate.property.tag"]
 
     def test_create_new_estate_property_type(self):
-        record = self._model.create({"name": "cozy"})
-        self.assertEqual(record.name, "cozy")
+        record = self._model.create({"name": "foobar"})
+        self.assertEqual(record.name, "foobar")
 
     @mute_logger("odoo.sql_db")
     def test_estate_property_type_name_is_required(self):

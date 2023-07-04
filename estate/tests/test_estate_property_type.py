@@ -13,11 +13,10 @@ from typing import Dict
 class EstatePropertyTypeTests(TransactionCase):
     def setUp(self):
         self._model = self.env["estate.property.type"]
-        self._model_mock = self._model.create({"name": "House"})
 
     def test_create_new_estate_property_type(self):
-        record = self._model.create({"name": "House"})
-        self.assertEqual(record.name, "House")
+        record = self._model.create({"name": "foobar"})
+        self.assertEqual(record.name, "foobar")
 
     @mute_logger("odoo.sql_db")
     def test_estate_property_type_name_is_required(self):
