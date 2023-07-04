@@ -1,4 +1,5 @@
 from odoo import api, fields, models, exceptions
+from odoo.tools import float_utils
 
 
 class EstateProperty(models.Model):
@@ -111,3 +112,23 @@ class EstateProperty(models.Model):
             self.state = "sold"
 
         return True
+
+    @api.constrains("selling_price", "expected_price")
+    def _check_selling_price_is_high_enough(self) -> None:
+        for estate_property in self:
+            if estate_property.selling_price == 0.0:
+                return
+
+            selling_price_is_too_low = (
+                float_utils.float_compare(
+                    estate_property.expected_price * 0.9,
+                    estate_property.selling_price,
+                    precision_digits=2
+                )
+                == 1
+            )
+
+            if selling_price_is_too_low:
+                raise exceptions.ValidationError(
+                    "The selling price must be at least 90 % of the expected price."
+                )
