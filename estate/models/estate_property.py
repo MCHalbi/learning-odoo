@@ -19,7 +19,7 @@ class EstateProperty(models.Model):
     selling_price = fields.Float(readonly=True, copy=False)
     best_offer = fields.Float(compute="_compute_best_offer")
 
-    active = fields.Boolean(default=False)
+    active = fields.Boolean(default=True)
     state = fields.Selection(
         selection=[
             ("new", "New"),
