@@ -30,8 +30,8 @@
     <field name="arch" type="xml">
       <form>
         <header>
-          <button name="sell" type="object" string="SOLD"/>
-          <button name="cancel" type="object" string="CANCEL"/>
+          <button name="sell" type="object" string="SOLD" attrs="{'invisible': ['|', ('state', '=', 'cancelled'), ('state', '=', 'sold')]}"/>
+          <button name="cancel" type="object" string="CANCEL" attrs="{'invisible': ['|', ('state', '=', 'cancelled'), ('state', '=', 'sold')]}"/>
           <field name="state" widget="statusbar"/>
         </header>
         <sheet>
