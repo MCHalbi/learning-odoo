@@ -33,7 +33,7 @@ class EstatePropertyTypeTests(TransactionCase):
             for field in architecture_xpath.xpath("//tree/field")
         ]
 
-        expected_column_names = ["name"]
+        expected_column_names = ["sequence", "name"]
 
         self.assertListEqual(column_names, expected_column_names)
 
