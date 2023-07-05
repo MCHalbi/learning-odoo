@@ -51,6 +51,7 @@ class EstatePropertyOffer(models.Model):
                 raise exceptions.UserError("Only one offer can be accepted.")
 
             offer.status = "accepted"
+            offer.property_id.state = "offer_accepted"
             offer.property_id.buyer_id = offer.partner_id
             offer.property_id.selling_price = offer.price
 
