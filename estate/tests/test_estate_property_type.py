@@ -28,10 +28,7 @@ class EstatePropertyTypeTests(TransactionCase):
         architecture = tree_view["arch"]
         architecture_xpath = html.fromstring(architecture)
 
-        column_names = [
-            field.get("name")
-            for field in architecture_xpath.xpath("//tree/field")
-        ]
+        column_names = [field.get("name") for field in architecture_xpath.xpath("//tree/field")]
 
         expected_column_names = ["sequence", "name"]
 

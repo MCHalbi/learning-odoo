@@ -23,14 +23,10 @@ class EstatePropertyTests(TransactionCase):
         self.assertTrue(actual_view_id)
 
         # Check, that the XML id of the used view is correct
-        actual_view_xml_id = (
-            self.env["ir.ui.view"].browse(actual_view_id).xml_id
-        )
+        actual_view_xml_id = self.env["ir.ui.view"].browse(actual_view_id).xml_id
         self.assertEqual(actual_view_xml_id, "estate.estate_property_view_form")
 
-    def assertModelHasAttributeWithType(
-        self, attributeName: str, attributeType: fields.MetaField
-    ):
+    def assertModelHasAttributeWithType(self, attributeName: str, attributeType: fields.MetaField):
         self.assertModelHasAttribute(attributeName)
         self.assertModelAttributeHasType(attributeName, attributeType)
 
@@ -40,9 +36,7 @@ class EstatePropertyTests(TransactionCase):
             f'Field "{attributeName}" is missing from model "{type(self._model).__name__}".',
         )
 
-    def assertModelAttributeHasType(
-        self, attributeName: str, attributeType: fields.MetaField
-    ):
+    def assertModelAttributeHasType(self, attributeName: str, attributeType: fields.MetaField):
         self.assertIsInstance(
             self._model._fields[attributeName],
             attributeType,

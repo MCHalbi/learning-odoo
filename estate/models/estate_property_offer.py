@@ -35,9 +35,7 @@ class EstatePropertyOffer(models.Model):
             if not offer.create_date:
                 offer.create_date = fields.Datetime.now()
 
-            offer.date_deadline = fields.Date.add(
-                offer.create_date, days=offer.validity
-            )
+            offer.date_deadline = fields.Date.add(offer.create_date, days=offer.validity)
 
     @api.depends("date_deadline", "create_date")
     def _compute_validity(self):
@@ -45,16 +43,11 @@ class EstatePropertyOffer(models.Model):
             if not offer.create_date:
                 offer.create_date = fields.Datetime.now()
 
-            offer.validity = (
-                offer.date_deadline - offer.create_date.date()
-            ).days
+            offer.validity = (offer.date_deadline - offer.create_date.date()).days
 
     def action_accept(self) -> bool:
         for offer in self:
-            if any(
-                offer_for_property.status == "accepted"
-                for offer_for_property in offer.property_id.property_offer_ids
-            ):
+            if any(offer_for_property.status == "accepted" for offer_for_property in offer.property_id.property_offer_ids):
                 raise exceptions.UserError("Only one offer can be accepted.")
 
             offer.status = "accepted"

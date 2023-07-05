@@ -50,14 +50,10 @@ class EstateProperty(models.Model):
     total_area = fields.Integer(compute="_compute_total_area")
 
     property_type_id = fields.Many2one("estate.property.type")
-    salesperson_id = fields.Many2one(
-        "res.users", default=lambda self: self.env.user
-    )
+    salesperson_id = fields.Many2one("res.users", default=lambda self: self.env.user)
     buyer_id = fields.Many2one("res.partner", copy=False, readonly=True)
     property_tag_ids = fields.Many2many("estate.property.tag", string="Tags")
-    property_offer_ids = fields.One2many(
-        "estate.property.offer", "property_id", string="Offers"
-    )
+    property_offer_ids = fields.One2many("estate.property.offer", "property_id", string="Offers")
 
     _sql_constraints = [
         (
@@ -80,24 +76,16 @@ class EstateProperty(models.Model):
     @api.depends("property_offer_ids.price")
     def _compute_best_offer(self) -> None:
         for record in self:
-            record.best_offer = (
-                max(record.property_offer_ids.mapped("price"))
-                if record.property_offer_ids
-                else 0.0
-            )
+            record.best_offer = max(record.property_offer_ids.mapped("price")) if record.property_offer_ids else 0.0
 
     @api.onchange("garden")
     def _onchange_garden(self):
-        self.garden_area, self.garden_orientation = (
-            (10, "N") if self.garden else (None, None)
-        )
+        self.garden_area, self.garden_orientation = (10, "N") if self.garden else (None, None)
 
     def cancel(self) -> bool:
         for estate_property in self:
             if self.state == "sold":
-                raise exceptions.UserError(
-                    "A sold property cannot be cancelled."
-                )
+                raise exceptions.UserError("A sold property cannot be cancelled.")
 
             self.state = "cancelled"
 
@@ -106,9 +94,7 @@ class EstateProperty(models.Model):
     def sell(self) -> bool:
         for estate_property in self:
             if self.state == "cancelled":
-                raise exceptions.UserError(
-                    "A cancelled property cannot be sold."
-                )
+                raise exceptions.UserError("A cancelled property cannot be sold.")
 
             self.state = "sold"
 
@@ -121,15 +107,8 @@ class EstateProperty(models.Model):
                 return
 
             selling_price_is_too_low = (
-                float_utils.float_compare(
-                    estate_property.expected_price * 0.9,
-                    estate_property.selling_price,
-                    precision_digits=2
-                )
-                == 1
+                float_utils.float_compare(estate_property.expected_price * 0.9, estate_property.selling_price, precision_digits=2) == 1
             )
 
             if selling_price_is_too_low:
-                raise exceptions.ValidationError(
-                    "The selling price must be at least 90 % of the expected price."
-                )
+                raise exceptions.ValidationError("The selling price must be at least 90 % of the expected price.")
