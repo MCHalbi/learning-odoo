@@ -10,7 +10,7 @@
     <field name="name">estate.property.tree</field>
     <field name="model">estate.property</field>
     <field name="arch" type="xml">
-      <tree string="Properties">
+      <tree string="Properties" decoration-success="state in ('offer_received', 'offer_accepted')" decoration-bf="state == 'offer_accepted'" decoration-muted="state == 'sold'">
         <field name="property_type_id" string="Type"/>
         <field name="property_tag_ids" widget="many2many_tags"/>
         <field name="name" string="Title"/>
@@ -20,6 +20,7 @@
         <field name="expected_price"/>
         <field name="selling_price"/>
         <field name="date_availability" string="Available From" optional="hide"/>
+        <field name="state" invisible="1"/>
       </tree>
     </field>
   </record>
