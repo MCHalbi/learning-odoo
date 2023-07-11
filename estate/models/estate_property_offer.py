@@ -62,3 +62,11 @@ class EstatePropertyOffer(models.Model):
             offer.status = "refused"
 
         return True
+
+    @api.model
+    def create(self, values):
+        if values.get("property_id"):
+            estate_property = self.env["estate.property"].browse(values["property_id"])
+            estate_property.state = "offer_received"
+
+        return super().create(values)
