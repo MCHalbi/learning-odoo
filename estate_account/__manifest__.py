@@ -11,6 +11,7 @@
         'security/ir.model.access.csv',
 
         'views/views.xml',
-        'views/templates.xml',
     ],
+
+    'application': True,
 }
