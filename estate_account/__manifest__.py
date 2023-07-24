@@ -1,17 +1,14 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "estate_account",
-    'depends': [
-        'base',
-        'estate',
-        'account',
+    "name": "estate_account",
+    "depends": [
+        "base",
+        "estate",
+        "account",
     ],
-
-    'data': [
-        'security/ir.model.access.csv',
-
-        'views/views.xml',
+    "data": [
+        "security/ir.model.access.csv",
+        "views/views.xml",
     ],
-
-    'application': True,
+    "application": True,
 }
