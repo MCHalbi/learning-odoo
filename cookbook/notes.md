@@ -3,6 +3,15 @@
 ## Chapter 1: Quick Start Using the Developer Mode
 ## Chapter 2: Preparing the Development Environment
 ## Chapter 3: Your First Odoo Application
+- **addon module** – a directory containing an Odoo manifest file
+- **addons directory** – a directory containing several addon modules
+- **addons path** – an Odoo configuration, containing a list of directories where
+the Odoo-Server looks for addons
+
+By default, there are two directories in the addons path:
+- `odoo/addons` – containing the base apps bundled with Odoo
+- `odoo/odoo/addons` – containing the Odoo core features
+
 ## Chapter 4: Extending Modules
 # Section 2: Models
 ## Chapter 5: Importing, Exporting, and Module Data
