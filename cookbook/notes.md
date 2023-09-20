@@ -12,6 +12,12 @@ By default, there are two directories in the addons path:
 - `odoo/addons` – containing the base apps bundled with Odoo
 - `odoo/odoo/addons` – containing the Odoo core features
 
+Flags for the `odoo` command:
+- `--addons-path` – A list of all directories to use as addon directories
+- `-d`/`--database` – The database to use. If it does not exist, it will be created
+- `-c`/`--config` – The config file to use
+
+
 ## Chapter 4: Extending Modules
 # Section 2: Models
 ## Chapter 5: Importing, Exporting, and Module Data
