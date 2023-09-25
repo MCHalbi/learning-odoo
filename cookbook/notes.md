@@ -16,7 +16,10 @@ Flags for the `odoo` command:
 - `--addons-path` – A list of all directories to use as addon directories
 - `-d`/`--database` – The database to use. If it does not exist, it will be created
 - `-c`/`--config` – The config file to use
+- `--save` – Saves the given options into a config file (use with `-c`)
+- `--stop` – Stops the Odoo-Server after the start sequence is done
 
+`odoo scaffold <module> <addons-directory>` creates a new module skeleton
 
 ## Chapter 4: Extending Modules
 # Section 2: Models
