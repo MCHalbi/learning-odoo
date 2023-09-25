@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    "name": "library_app",
+    "name": "Library Management",
     "summary": """Manage library catalog and book lengding.""",
     "author": "Lukas Halbritter",
     "category": "Services/Library",
