@@ -24,6 +24,18 @@ Flags for the `odoo` command:
 ## Chapter 4: Extending Modules
 # Section 2: Models
 ## Chapter 5: Importing, Exporting, and Module Data
+- **external identifier / XML ID** – a human readable string identifier that
+  uniquely identifies a record in Odoo
+
+  ```
+   library_app.menu_library
+  |           |            |
+  +-----------+------------+
+   module name    XML ID
+  |                        |
+  +------------------------+
+         complete ID
+  ```
 ## Chapter 6: Models – Structuring the Application Data
 # Section 3: Business Logic 
 ## Chapter 7: Recordsets – Working with Model Data
